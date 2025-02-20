@@ -1,0 +1,174 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from core.models import Tweet, Follow, Like, User, Retweet, Tag
+from core.forms import TweetForm
+from notification.models import Notification
+from django.http import JsonResponse
+from django.db.models import Count
+
+def home_feed(request):
+    tweet_form = TweetForm(request.POST, request.FILES)
+
+    if not request.user.is_authenticated:
+        tweets = Tweet.objects.all().order_by('-created_at')
+        return render(request, 'core/home_feed.html', {'user':request.user, 'tweet_form': tweet_form, 'tweets': tweets})
+
+    # Get the users that the current user follows
+    followed_users = User.objects.filter(followers__follower=request.user)
+    # Get tweets from followed users, ordered by creation time
+    tweets = Tweet.objects.filter(author__in=followed_users).order_by('-created_at')
+
+    return render(request, 'core/home_feed.html', {'user':request.user, 'tweet_form': tweet_form, 'tweets': tweets})
+
+def explore_feed(request):
+
+    # Get the most trending tag in a single query
+    trending_tags = Tag.objects.annotate(tweet_count=Count('tweets')).order_by('-tweet_count')[0:5]
+
+    return render(request, 'core/explore.html', {'trending_tags': trending_tags})
+
+def explore_tag(request, tag):
+    tag = tag.lstrip('#')  # Remove '#' prefix if present
+    tag = get_object_or_404(Tag, slug=tag.lower())
+    tweets = tag.tweets.all().order_by('-created_at')
+
+    return render(request, 'core/explore_tag.html', {'tweets': tweets})
+
+def view_tweet(request, username=None, tweet_id=None):
+    tweet = Tweet.objects.get(id=tweet_id,)
+    return render(request, 'core/single_tweet_page.html', {'tweet': tweet})
+
+@login_required
+def post_tweet(request):
+    if request.method == 'POST':
+        form = TweetForm(request.POST, request.FILES)
+        if form.is_valid():
+            tweet = form.save(commit=False)
+            tweet.author = request.user
+            tweet.save()
+            return redirect('home')
+    else:
+        return redirect('home')
+    return render(request, 'post_tweet.html', {'form': form})
+
+@login_required
+def follow_user(request, user_id):
+    user_to_follow = User.objects.get(id=user_id)
+    Follow.objects.create(follower=request.user, followed=user_to_follow)
+
+    Notification.objects.create(
+        user=user_to_follow,
+        message=f"{request.user.username} started following you.",
+        link=f"/user/{request.user.id}/"  # Link to the follower's profile
+    )
+
+    return redirect('profile', user_id=user_id)
+
+@login_required
+def unfollow_user(request, user_id):
+    user_to_unfollow = User.objects.get(id=user_id)
+    Follow.objects.filter(follower=request.user, followed=user_to_unfollow).delete()
+    return redirect('profile', user_id=user_id)
+
+@login_required
+def like_tweet(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    like, created = Like.objects.get_or_create(user=request.user, tweet=tweet)
+
+    if not created:
+        like.delete()
+        liked = False
+    else:
+        liked = True
+
+        Notification.objects.create(
+            sender_id=request.user.id,
+            user=tweet.author,
+            type="like",
+            link=f"/tweet/{tweet.id}/"  # Link to the tweet
+        )
+
+    return JsonResponse({'liked': liked, 'like_count': tweet.like_count()})
+
+@login_required
+def retweet_tweet(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    retweet, created = Retweet.objects.get_or_create(user=request.user, tweet=tweet)
+
+    if not created:
+        retweet.delete()
+        retweet = False
+    else:
+        retweet = True
+
+        Notification.objects.create(
+            sender_id=request.user.id,
+            user=tweet.author,
+            type="retweet",
+            link=f"/tweet/{tweet.id}/"  # Link to the tweet
+        )
+
+    return JsonResponse({'retweet': retweet, 'retweet_count': tweet.retweet_count()})
+
+@login_required
+def delete_tweet(request, tweet_id):
+    tweet = Tweet.objects.get(id=tweet_id)
+    
+    # Ensure the user can only delete their own tweets
+    if tweet.author == request.user:
+        tweet.delete()
+    
+    return redirect('home')
+
+@login_required
+def edit_tweet(request, tweet_id):
+    tweet = Tweet.objects.get(id=tweet_id)
+    if tweet.author != request.user:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        form = TweetForm(request.POST, request.FILES, instance=tweet)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = TweetForm(instance=tweet)
+    return render(request, 'edit_tweet.html', {'form': form})
+
+@login_required
+def followers_list(request, user_id):
+    user = User.objects.get(id=user_id)
+    followers = User.objects.filter(following__followed=user)
+    
+    return render(request, 'followers_list.html', {
+        'profile_user': user,
+        'followers': followers
+    })
+
+@login_required
+def following_list(request, user_id):
+    user = User.objects.get(id=user_id)
+    following = User.objects.filter(followers__follower=user)
+    
+    return render(request, 'following_list.html', {
+        'profile_user': user,
+        'following': following
+    })
+
+def search(request):
+    query = request.GET.get('q')
+    
+    if query:
+        users = User.objects.filter(username__icontains=query)
+        tweets = Tweet.objects.filter(content__icontains=query)
+    else:
+        users = User.objects.none()
+        tweets = Tweet.objects.none()
+    
+    return render(request, 'search_results.html', {
+        'users': users,
+        'tweets': tweets,
+        'query': query
+    })
+

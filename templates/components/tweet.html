@@ -1,0 +1,31 @@
+{% load custom_filters %}
+<article class="p-4 hover:bg-gray-50 bg-white">
+    <div class="flex space-x-3">
+        <a href={% url "user_profile" username=tweet.author.username %}><img src={{tweet.author.profile_picture.url}} class="rounded-full h-12 w-12" alt="User"></a>
+        <div class="flex-1">
+            <div class="flex items-center space-x-2">
+                <h2 class="font-bold"><a href={% url "user_profile" username=tweet.author.username %}>{{tweet.author.get_full_name}}</a></h2>
+                <span class="text-gray-500"><a href={% url "user_profile" username=tweet.author.username %}>@{{tweet.author.username}}</a></span>
+                <span class="text-gray-500">· {{tweet.how_long_ago}}</span>
+            </div>
+            <p class="mt-2 mb-3 tweet-text">{{tweet.text}}</p>
+            <div class="tweet-actions flex justify-between max-w-md text-gray-500">
+                <a href="{% url "view_tweet" tweet_id=tweet.id %}" class="flex items-center space-x-2 hover:text-blue-500">
+                    <i data-feather="message-circle" class="h-5 w-5"></i>
+                    <span class="count">{{tweet.comments.count}}</span>
+                </a>
+                <button class="flex items-center space-x-2 hover:text-green-500 retweet-btn" data-post-id={{ tweet.id }}>
+                    <i data-feather="repeat" class="h-5 w-5"></i>
+                    <span class="count">{{tweet.retweets.count}}</span>
+                </button>
+                <button class="flex items-center space-x-2 hover:text-red-500 like-btn {% if user.is_authenticated %}{% if tweet|user_has_liked:request.user %}liked{% endif %}{% endif %}" data-post-id={{ tweet.id }}>
+                    <i data-feather="heart" class="h-5 w-5"></i>
+                    <span class="count">{{tweet.likes.count}}</span>
+                </button>
+                <button class="flex items-center space-x-2 hover:text-blue-500 share-btn" data-post-id={{ tweet.id }}>
+                    <i data-feather="share" class="h-5 w-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</article>

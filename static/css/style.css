@@ -1,0 +1,132 @@
+/* General Styles */
+body {
+  background-color: #f5f8fa;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #1da1f2;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+}
+
+/* Tweet Box */
+.tweet-box {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.tweet-box textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+.tweet-box button {
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 20px;
+}
+
+/* Tweets */
+.tweet {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.tweet img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* Tweet Action Buttons */
+.tweet-actions button {
+  background: none;
+  border: none;
+  color: #657786;
+  margin-right: 15px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tweet-actions button:hover {
+  background-color: #e8f5fe;
+  color: #1da1f2;
+}
+
+.tweet-actions button.liked {
+  color: #e0245e;
+}
+
+.tweet-actions button.retweeted {
+  color: #17bf63;
+}
+
+/* Forms */
+.form-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container .form-control {
+  margin-bottom: 15px;
+}
+
+.form-container .btn {
+  width: 100%;
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+/* Profile Page */
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-header img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.profile-header h3 {
+  margin-top: 10px;
+}
+
+.tweet-text .hashtags {
+  color: #1da1f2; 
+}
+
+.tweet-text .mentions {
+  color: #1da1f2;
+}

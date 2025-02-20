@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block  page_title %}Followers{% endblock  %}
+
+{% block content %}
+
+<!-- Followers Page -->
+<div id="followers" class="page min-h-screen pt-12">
+    <div class="max-w-2xl mx-auto bg-white border-x border-gray-200">
+        <header class="border-b border-gray-200 p-4">
+            <h1 class="text-xl font-bold">Followers</h1>
+        </header>
+
+        <!-- Follower List -->
+        <div class="divide-y divide-gray-200">
+            <div class="p-4 hover:bg-gray-50 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="/api/placeholder/48/48" class="rounded-full h-12 w-12" alt="User">
+                    <div>
+                        <div class="font-bold">John Doe</div>
+                        <div class="text-gray-500">@johndoe</div>
+                        <p class="text-gray-600 text-sm mt-1">Full-stack developer | Coffee lover</p>
+                    </div>
+                </div>
+                <button class="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800">Follow</button>
+            </div>
+            <!-- More followers... -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

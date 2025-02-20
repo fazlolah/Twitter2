@@ -1,0 +1,24 @@
+/* Tweet Action Buttons */
+.tweet-actions button {
+    background: none;
+    border: none;
+    color: #657786;
+    margin-right: 15px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .tweet-actions button:hover {
+    background-color: #e8f5fe;
+    color: #1da1f2;
+  }
+  
+  .tweet-actions button.liked {
+    color: #e0245e;
+  }
+  
+  .tweet-actions button.retweeted {
+    color: #17bf63;
+  }

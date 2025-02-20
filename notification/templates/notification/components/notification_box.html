@@ -1,0 +1,11 @@
+<div class="p-4 hover:bg-gray-50">
+    <div class="flex items-start space-x-4">
+        <i data-feather="heart" class="h-5 w-5 text-red-500 mt-2"></i>
+        <div>
+            <img src="{{notif.sender.profile_picture.url}}" class="rounded-full h-8 w-8 mb-2" alt="User">
+            <span class="font-bold">{{notif.sender}}</span>
+            <span class="text-gray-500">{{notif.message}}</span>
+            <p class="text-gray-600 mt-2">{{notif.link}}</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block  page_title %}{{user.get_full_name}}{% endblock page_title %}
+
+{% block content %}
+
+<!-- Profile Page -->
+<div id="profile" class="page">
+    <!-- Profile Header -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="h-48 bg-blue-500"></div>
+        <div class="px-4 pb-4">
+            <div class="relative">
+                <img src={{user.profile_picture.url}} class="absolute -top-16 border-4 border-white rounded-full h-32 w-32" alt="Profile">
+                <div class="pt-20 flex justify-end">
+                    <a href={% url "edit_profile" %} class="border border-blue-500 text-blue-500 px-4 py-2 rounded-full font-bold hover:bg-blue-50 mx-2">
+                        Edit profile
+                    </a>
+                    <a href={% url "logout" %} class="border border-red-500 text-red-500 px-4 py-2 rounded-full font-bold hover:bg-blue-50 mx-2">
+                        Logout
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h1 class="text-xl font-bold">{{user.get_full_name}}</h1>
+                <div class="text-gray-500">@{{user.username}}</div>
+                <p class="mt-4">{{user.bio}}</p>
+                <div class="flex space-x-4 mt-4 text-gray-500">
+                    <span><i data-feather="map-pin" class="inline h-4 w-4"></i>{{user.location}}</span>
+                    <span><i data-feather="calendar" class="inline h-4 w-4"></i> Joined {{user.created_at}}</span>
+                </div>
+                <div class="flex space-x-6 mt-4">
+                    <span><strong>{{user.following.count}}</strong> <span class="text-gray-500">Following</span></span>
+                    <span><strong>{{user.followers.count}}</strong> <span class="text-gray-500">Followers</span></span>
+                </div>
+            </div>
+            <div class="flex mt-4 border-b">
+                <button class="flex-1 py-4 text-center border-b-2 border-blue-500 text-blue-500">Tweets</button>
+                <button class="flex-1 py-4 text-center hover:bg-gray-50">Replies</button>
+                <button class="flex-1 py-4 text-center hover:bg-gray-50">Media</button>
+                <button class="flex-1 py-4 text-center hover:bg-gray-50">Likes</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Tweets -->
+    <div class="divide-y divide-gray-200 bg-white">
+
+        {% for tweet in user_tweets %}
+            {% include "components\tweet.html" with tweet=tweet%}
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}

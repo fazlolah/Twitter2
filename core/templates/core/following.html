@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block  page_title %}Followings{% endblock  %}
+
+{% block content %}
+
+<!-- Following Page -->
+<div id="following" class="page min-h-screen pt-12 hidden">
+    <div class="max-w-2xl mx-auto bg-white border-x border-gray-200">
+        <header class="border-b border-gray-200 p-4">
+            <h1 class="text-xl font-bold">Following</h1>
+        </header>
+
+        <!-- Following List -->
+        <div class="divide-y divide-gray-200">
+            <div class="p-4 hover:bg-gray-50 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="/api/placeholder/48/48" class="rounded-full h-12 w-12" alt="User">
+                    <div>
+                        <div class="font-bold">Jane Smith</div>
+                        <div class="text-gray-500">@janesmith</div>
+                        <p class="text-gray-600 text-sm mt-1">UI/UX Designer | Travel enthusiast</p>
+                    </div>
+                </div>
+                <button class="px-4 py-2 border border-gray-300 text-gray-900 rounded-full hover:bg-gray-50">Following</button>
+            </div>
+            <!-- More following... -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

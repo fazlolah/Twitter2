@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block page_title %}Notifications{% endblock page_title %}
+
+{% block content %}
+
+<!-- Notifications Page -->
+<div id="notifications" class="page">
+    <header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky">
+        <div class="px-4 py-3">
+            <h1 class="text-xl font-bold">Notifications</h1>
+            <div class="flex mt-2">
+                <button class="flex-1 py-4 text-center border-b-2 border-blue-500 text-blue-500">All</button>
+                <button class="flex-1 py-4 text-center hover:bg-gray-50">Mentions</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="divide-y divide-gray-200 bg-white">
+
+        {% for notif in notifications %}
+            {% include "notification/components/notification_box.html" with notif=notif %}
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}

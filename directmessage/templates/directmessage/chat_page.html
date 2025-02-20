@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block title %}Messages{% endblock title %}
+
+{% block content %}
+
+<!-- Messages Page -->
+<div id="messages" class="page min-h-screen">
+    <div class="max-w-2xl mx-auto bg-white border-x border-gray-200 h-screen flex">
+        <!-- Conversations List -->
+        <div class="w-2/5 border-r border-gray-200">
+            <header class="border-b border-gray-200 p-4">
+                <h1 class="text-xl font-bold">Messages</h1>
+            </header>
+
+            <div class="divide-y divide-gray-200">
+                <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <img src="/api/placeholder/48/48" class="rounded-full h-12 w-12" alt="User">
+                        <div class="flex-1">
+                            <div class="flex justify-between">
+                                <div class="font-bold">Sarah Wilson</div>
+                                <span class="text-sm text-gray-500">2h</span>
+                            </div>
+                            <p class="text-gray-600 truncate">Hey, how's it going?</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- More conversations... -->
+            </div>
+        </div>
+
+        {% comment %} <div class="w-3/5 flex flex-col items-center justify-center">
+            <h1 class="text-xl font-bold">
+            Select a message
+            </h1>
+        </div> {% endcomment %}
+
+        <!-- Chat Area -->
+        <div class="flex-1 flex flex-col">
+            <header class="border-b border-gray-200 p-4">
+                <div class="flex items-center space-x-3">
+                    <img src="{{ other_user.profile_picture.url }}" class="rounded-full h-10 w-10" alt="User">
+                    <div class="font-bold">{{ other_user }}</div>
+                </div>
+            </header>
+
+            <div class="flex-1 p-4 overflow-y-auto space-y-4">
+                <!-- Messages -->
+                {% for message in messages %}
+
+                    {% if message.sender.id == user.id %}
+
+                        <div class="flex justify-end">
+                            <div class="bg-blue-500 text-white rounded-lg p-3 max-w-xs">
+                                {{message.message}}
+                            </div>
+                        </div>
+
+                    {% elif message.sender.id == other_user.id %}
+
+                        <div class="flex justify-start">
+                            <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
+                                {{message.message}}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+
+
+            </div>
+
+            <div class="border-t border-gray-200 p-4">
+                <div class="flex space-x-2">
+                    <input type="text" placeholder="Start a new message" 
+                        class="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-full">
+                        <i data-feather="send" class="h-5 w-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

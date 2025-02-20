@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block  page_title %}Home{% endblock  %}
+
+{% block content %}
+    <!-- Main Content -->
+        <!-- Header -->
+        <header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0">
+            <div class="px-4 py-3">
+                <h1 class="text-xl font-bold">Home</h1>
+            </div>
+        </header>
+
+        <!-- Tweet Box -->
+        <div class="border-b border-gray-200 p-4 bg-white">
+            <div class="flex space-x-4">
+                <img src="{{ request.user.profile_picture.url }}" class="rounded-full h-12 w-12" alt="Profile">
+                <div class="flex-1">
+                    <form action="{% url 'create_tweet' %}" method="POST">
+                        {% csrf_token %}
+                        {{ tweet_form.text }}
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-4 text-blue-500">
+                                <label class="cursor-pointer" for="id_image" title="click to browse file"><i data-feather="image" class="h-5 w-5"></i></label>
+                                {{ tweet_form.image }}
+                                {% comment %} <button><i data-feather="image" class="h-5 w-5"></i></button> {% endcomment %}
+                                {% comment %} <button><i data-feather="bar-chart-2" class="h-5 w-5"></i></button> {% endcomment %}
+                                <button><i data-feather="smile" class="h-5 w-5"></i></button>
+                                {% comment %} <button><i data-feather="calendar" class="h-5 w-5"></i></button> {% endcomment %}
+                            </div>
+                            <button type="submit" class="bg-blue-500 text-white rounded-full px-4 py-2 font-bold hover:bg-blue-600">
+                                Tweet
+                            </button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tweets -->
+        <div class="divide-y divide-gray-200">
+
+            {% for tweet in tweets %}
+                {% include "components\tweet.html" with tweet=tweet%}
+            {% endfor %}
+
+        </div>
+
+{% endblock content %}
