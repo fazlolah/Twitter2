@@ -1,29 +1,31 @@
 <!-- Comment -->
+{% load custom_filters %}
 <article class="p-4 hover:bg-gray-50">
     <div class="flex space-x-3">
-        <img src={{comment.author.profile_picture.url}} class="rounded-full h-10 w-10" alt="User">
+        <a href={% url "user_profile" username=tweet.author.username %}><img src={{tweet.author.profile_picture.url}} class="rounded-full h-10 w-10" alt="User"></a>
         <div class="flex-1">
             <div class="flex items-center space-x-2">
-                <span class="font-bold hover:underline">{{comment.author.get_full_name}}</span>
-                <span class="text-gray-500">@{{comment.author.username}}</span>
+                <span class="font-bold hover:underline"><a href={% url "user_profile" username=tweet.author.username %}>{{comment.author.get_full_name}}</a></span>
+                <span class="text-gray-500"><a href={% url "user_profile" username=tweet.author.username %}>@{{comment.author.username}}</a></span>
                 <span class="text-gray-500">·</span>
                 <span class="text-gray-500">{{comment.how_long_ago}}</span>
             </div>
-            <p class="mt-1">{{comment.text}}</p>
+            <p class="mt-1 tweet-text">{{comment.text}}</p>
             <div class="flex justify-between mt-3 max-w-md text-gray-500">
-                <button class="flex items-center space-x-2 hover:text-blue-500">
+                <a href="{% url "view_tweet" tweet_id=comment.id %}" class="flex items-center space-x-2 hover:text-blue-500">
+
                     <i data-feather="message-circle" class="h-4 w-4"></i>
                     <span>{{comment.comments.count}}</span>
-                </button>
-                <button class="flex items-center space-x-2 hover:text-green-500">
+                </a>
+                <button class="flex items-center space-x-2 hover:text-green-500 retweet-btn" data-post-id={{ tweet.id }}>
                     <i data-feather="repeat" class="h-4 w-4"></i>
                     <span>{{comment.retweets.count}}</span>
                 </button>
-                <button class="flex items-center space-x-2 hover:text-red-500">
+                <button class="flex items-center space-x-2 hover:text-red-500 like-btn {% if user.is_authenticated %}{% if tweet|user_has_liked:request.user %}liked{% endif %}{% endif %}" data-post-id={{ tweet.id }}>
                     <i data-feather="heart" class="h-4 w-4"></i>
                     <span>{{comment.likes.count}}</span>
                 </button>
-                <button class="flex items-center space-x-2 hover:text-blue-500">
+                <button class="flex items-center space-x-2 hover:text-blue-500 share-btn" data-post-id={{ tweet.id }}>
                     <i data-feather="share" class="h-4 w-4"></i>
                 </button>
             </div>

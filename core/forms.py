@@ -22,12 +22,12 @@ class CommentForm(forms.ModelForm):
         fields = ['text', 'image']
         widgets = {
             'text': forms.Textarea(attrs={
-                'class': 'form-control',
+                'class': 'w-full border-none resize-none focus:ring-0 text-lg placeholder-gray-500',
                 'placeholder': 'Tweet your reply...',
                 'rows': 2,
             }),
             'image': forms.FileInput(attrs={
-                'class': 'form-control',
+                'hidden':True,
             }),
         }
 

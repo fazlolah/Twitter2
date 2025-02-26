@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from core.models import Tweet, Follow, Like, User, Retweet, Tag
-from core.forms import TweetForm
+from core.models import Tweet, Follow, Like, User, Retweet, Tag, Comment
+from core.forms import TweetForm, CommentForm
 from notification.models import Notification
 from django.http import JsonResponse
 from django.db.models import Count
@@ -36,8 +36,9 @@ def explore_tag(request, tag):
     return render(request, 'core/explore_tag.html', {'tweets': tweets})
 
 def view_tweet(request, username=None, tweet_id=None):
+    comment_form = CommentForm()
     tweet = Tweet.objects.get(id=tweet_id,)
-    return render(request, 'core/single_tweet_page.html', {'tweet': tweet})
+    return render(request, 'core/single_tweet_page.html', {'tweet': tweet, 'comment_form': comment_form})
 
 @login_required
 def post_tweet(request):
@@ -51,6 +52,25 @@ def post_tweet(request):
     else:
         return redirect('home')
     return render(request, 'post_tweet.html', {'form': form})
+
+@login_required
+def post_reply(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    parent_comment = None
+
+    # Check if this is a reply to another comment
+    # if parent_comment_id:
+    #     parent_comment = get_object_or_404(Comment, id=parent_comment_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = tweet
+            comment.parent = parent_comment  # Set the parent comment if it's a reply
+            comment.save()
+            return redirect('view_tweet', tweet_id=tweet.id)
 
 @login_required
 def follow_user(request, user_id):

@@ -6,6 +6,7 @@
 <!-- Messages Page -->
 <div id="messages" class="page min-h-screen">
     <div class="max-w-2xl mx-auto bg-white border-x border-gray-200 h-screen flex">
+        
         <!-- Conversations List -->
         <div class="w-2/5 border-r border-gray-200">
             <header class="border-b border-gray-200 p-4">
@@ -13,18 +14,23 @@
             </header>
 
             <div class="divide-y divide-gray-200">
-                <div class="p-4 hover:bg-gray-50 cursor-pointer">
-                    <div class="flex items-center space-x-3">
-                        <img src="/api/placeholder/48/48" class="rounded-full h-12 w-12" alt="User">
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <div class="font-bold">Sarah Wilson</div>
-                                <span class="text-sm text-gray-500">2h</span>
+                {% for conversation in conversations %}
+                    <a href="{% url 'view_conversation' user_id=conversation.other_user.id %}">
+                        <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                            <div class="flex items-center space-x-3">
+                                <img src="{{conversation.other_user.profile_picture.url}}" class="rounded-full h-12 w-12" alt="User">
+                                <div class="flex-1">
+                                    <div class="flex justify-between">
+                                        <div class="font-bold">{{conversation.other_user}}</div>
+                                        {% comment %} <span class="text-sm text-gray-500">2h</span> {% endcomment %}
+                                    </div>
+                                    <p class="text-gray-600 truncate">{{conversation.latest_message.message}}</p>
+                                </div>
                             </div>
-                            <p class="text-gray-600 truncate">Hey, how's it going?</p>
                         </div>
-                    </div>
-                </div>
+                    </a>
+                {% endfor %}
+
                 <!-- More conversations... -->
             </div>
         </div>
@@ -75,11 +81,19 @@
 
             <div class="border-t border-gray-200 p-4">
                 <div class="flex space-x-2">
-                    <input type="text" placeholder="Start a new message" 
+                    <form method="post" action="{% url "send_direct_message_to_user"  receiver_id=other_user.id%}">
+                        {% csrf_token %}
+                            {{ form.message }}
+                            <button type="submit" class="p-2 text-blue-500 hover:bg-blue-50 rounded-full">
+                                <i data-feather="send" class="h-5 w-5"></i>
+                            </button>
+                    </form>
+                    
+                    {% comment %} <input type="text" placeholder="Start a new message" 
                         class="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <button class="p-2 text-blue-500 hover:bg-blue-50 rounded-full">
                         <i data-feather="send" class="h-5 w-5"></i>
-                    </button>
+                    </button> {% endcomment %}
                 </div>
             </div>
         </div>

@@ -11,11 +11,15 @@ urlpatterns = [
     path('tweet/<int:tweet_id>/delete/', views.delete_tweet, name='delete_tweet'),
     path('tweet/<int:tweet_id>/edit/', views.edit_tweet, name='edit_tweet'),
 
+
     # Like/Unlike URLs
     path('tweet/<int:tweet_id>/like/', views.like_tweet, name='like_tweet'),
 
     # Retweet URLs
     path('tweet/<int:tweet_id>/retweet/', views.like_tweet, name='like_tweet'),
+
+    # Reply
+    path('tweet/<int:tweet_id>/reply/', views.post_reply, name='post_reply'),
 
     # Follow/Unfollow URLs
     path('user/<int:user_id>/follow/', views.follow_user, name='follow_user'),

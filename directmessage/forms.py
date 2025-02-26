@@ -4,12 +4,10 @@ from .models import DirectMessage
 class DirectMessageForm(forms.ModelForm):
     class Meta:
         model = DirectMessage
-        fields = ['receiver', 'message']
+        fields = ['message']
         widgets = {
-            'receiver': forms.Select(attrs={'class': 'form-control'}),
-            'message': forms.Textarea(attrs={
-                'class': 'form-control',
+            'message': forms.TextInput(attrs={
+                'class': 'w-80 flex-1 border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                 'placeholder': 'Type your message...',
-                'rows': 3,
             }),
         }

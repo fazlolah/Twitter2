@@ -130,3 +130,8 @@ body {
 .tweet-text .mentions {
   color: #1da1f2;
 }
+
+.no-style-form {
+  all: unset;
+
+}
