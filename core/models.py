@@ -1,8 +1,8 @@
 from django.db import models
 from account.models import User
 from django.utils.text import slugify
-from .utils import extract_hashtags
-
+from .utils import extract_hashtags, extract_mentions
+from notification.models import Notification
 # Create your models here.
 
 class Tag(models.Model):
@@ -37,10 +37,20 @@ class Tweet(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # Save the tweet first
+
         hashtags = extract_hashtags(self.text)
         for hashtag in hashtags:
             tag, created = Tag.objects.get_or_create(name=hashtag.lower())
             self.tags.add(tag)
+
+        mentions = extract_mentions(self.text)
+        for mention in mentions:
+            Notification.objects.create(
+                sender_id=self.author.id,
+                user=User.objects.get(username=mention.lstrip('@')),
+                type="mention",
+                tweet_id=self  # Link to the tweet
+            )
 
     def __str__(self):
         return f"{self.author.username}: {self.text[:50]}..."

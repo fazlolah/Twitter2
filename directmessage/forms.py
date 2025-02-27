@@ -7,7 +7,7 @@ class DirectMessageForm(forms.ModelForm):
         fields = ['message']
         widgets = {
             'message': forms.TextInput(attrs={
-                'class': 'w-80 flex-1 border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                'class': 'max-w mx-auto flex-1 border border-gray-300 rounded-full px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                 'placeholder': 'Type your message...',
             }),
         }

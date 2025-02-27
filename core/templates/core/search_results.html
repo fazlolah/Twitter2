@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block  page_title %}Explore{% endblock  %}
+
+{% block content %}
+
+<!-- Explore Page -->
+<div id="explore" class="">
+    {% include "core/components/explore_header.html" %}             
+
+    <div class="flex border-b">
+        <button onclick="showPage('tweets', event)" class="flex-1 py-4 text-center border-b-2 border-blue-500 text-blue-500">Tweets</button>
+        <button onclick="showPage('users', event)" class="flex-1 py-4 text-center hover:bg-gray-50">Users</button>
+    </div>
+
+    {% if tweets %}
+        <div id="tweets" class="page">
+            {% for tweet in tweets %}
+                {% include "components\tweet.html" with tweet=tweet%}
+            {% endfor %}
+        </div>
+    {% elif users %}
+        <div id="users" class="page">
+            {% for tweet in tweets %}
+                {% include "components\tweet.html" with tweet=tweet%}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="mt-10 flex flex-col items-center justify-center">
+            <h1 class="text-xl font-bold">
+            Nothing was found.
+            </h1>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock content %}

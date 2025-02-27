@@ -5,10 +5,10 @@
 
 <!-- Messages Page -->
 <div id="messages" class="page min-h-screen">
-    <div class="max-w-2xl mx-auto bg-white border-x border-gray-200 h-screen flex">
+    <div class="max-w mx-auto bg-white border-x border-gray-200 h-screen flex">
         
         <!-- Conversations List -->
-        <div class="w-2/5 border-r border-gray-200">
+        <div class="w-1/3 border-r border-gray-200">
             <header class="border-b border-gray-200 p-4">
                 <h1 class="text-xl font-bold">Messages</h1>
             </header>
@@ -81,7 +81,7 @@
 
             <div class="border-t border-gray-200 p-4">
                 <div class="flex space-x-2">
-                    <form method="post" action="{% url "send_direct_message_to_user"  receiver_id=other_user.id%}">
+                    <form method="post" action="{% url "send_direct_message_to_user" receiver_id=other_user.id%}">
                         {% csrf_token %}
                             {{ form.message }}
                             <button type="submit" class="p-2 text-blue-500 hover:bg-blue-50 rounded-full">

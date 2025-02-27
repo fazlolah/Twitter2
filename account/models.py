@@ -25,6 +25,8 @@ class User(AbstractUser):
     
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', default='images/no_pfp.png')
+    cover_picture = models.ImageField(upload_to='cover_pictures/', blank=True, null=True)
+
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)

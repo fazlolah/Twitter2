@@ -14,7 +14,7 @@
         <!-- Tweet Box -->
         <div class="border-b border-gray-200 p-4 bg-white">
             <div class="flex space-x-4">
-                <img src="{{ request.user.profile_picture.url }}" class="rounded-full h-12 w-12" alt="Profile">
+                <img src="{% if user.is_authenticated %}{{ request.user.profile_picture.url }}{% else %}{% static "no_pfp.png" %}{% endif %}" class="rounded-full h-12 w-12" alt="Profile">
                 <div class="flex-1">
                     <form action="{% url 'create_tweet' %}" method="POST">
                         {% csrf_token %}

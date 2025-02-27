@@ -16,7 +16,7 @@ urlpatterns = [
     path('tweet/<int:tweet_id>/like/', views.like_tweet, name='like_tweet'),
 
     # Retweet URLs
-    path('tweet/<int:tweet_id>/retweet/', views.like_tweet, name='like_tweet'),
+    path('tweet/<int:tweet_id>/retweet/', views.retweet_tweet, name='retweet_tweet'),
 
     # Reply
     path('tweet/<int:tweet_id>/reply/', views.post_reply, name='post_reply'),
@@ -33,9 +33,7 @@ urlpatterns = [
     # Search URL
     path('explore/', views.explore_feed, name='explore'),
     path('explore/<slug:tag>', views.explore_tag, name='explore_tag'),
-
-    
-    path('search/', views.search, name='search'),
+    path('explore/search/', views.search, name='search'),
 
     path('tweet/<int:tweet_id>/', views.view_tweet, name='view_tweet'),
     path('user/<str:username>/<int:tweet_id>/', views.view_tweet, name='view_tweet'),

@@ -101,4 +101,4 @@ def edit_profile(request):
             return redirect('user_profile', user_id=request.user.id)
     else:
         form = UserProfileForm(instance=request.user)
-    return render(request, 'edit_profile.html', {'form': form})
+    return render(request, 'account/edit_profile.html', {'form': form})

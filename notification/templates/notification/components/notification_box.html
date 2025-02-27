@@ -2,10 +2,13 @@
     <div class="flex items-start space-x-4">
         <i data-feather="heart" class="h-5 w-5 text-red-500 mt-2"></i>
         <div>
+            <a href="{% url "user_profile" username=notif.sender.username %}">
             <img src="{{notif.sender.profile_picture.url}}" class="rounded-full h-8 w-8 mb-2" alt="User">
-            <span class="font-bold">{{notif.sender}}</span>
+            <span class="font-bold">{{notif.sender}}</span></a>
             <span class="text-gray-500">{{notif.message}}</span>
-            <p class="text-gray-600 mt-2">{{notif.link}}</p>
+            {% if notif.tweet_id %}
+            <p class="text-gray-600 mt-2"><a href="{% url "view_tweet" tweet_id=notif.tweet_id.id %}">{{notif.tweet_id.text|truncatechars:64}}</a></p>
+            {% endif %}
         </div>
     </div>
 </div>

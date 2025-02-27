@@ -18,12 +18,12 @@ class Notification(models.Model):
     message = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
-    link = models.URLField(blank=True, null=True)  # Optional link for the notification
+    tweet_id = models.ForeignKey('core.Tweet', on_delete=models.CASCADE, related_name='source_tweet', blank=True, null=True)  # Optional link for the notification
 
     def save(self, *args, **kwargs):
         if self.sender == self.user:
             return  # No self-notifications
-        self.message = {self.get_type_display()}
+        self.message = self.get_type_display()
         return super().save(*args, **kwargs)
 
     class Meta:

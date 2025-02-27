@@ -75,21 +75,24 @@ def post_reply(request, tweet_id):
 @login_required
 def follow_user(request, user_id):
     user_to_follow = User.objects.get(id=user_id)
-    Follow.objects.create(follower=request.user, followed=user_to_follow)
+    followed, created = Follow.objects.get_or_create(follower=request.user, followed=user_to_follow)
 
-    Notification.objects.create(
-        user=user_to_follow,
-        message=f"{request.user.username} started following you.",
-        link=f"/user/{request.user.id}/"  # Link to the follower's profile
-    )
+    if created:
 
-    return redirect('profile', user_id=user_id)
+        Notification.objects.create(
+                sender_id=request.user.id,
+                user=user_to_follow,
+                type="follow",
+                tweet_id=None  # Link to the tweet
+        )
+
+    return redirect('user_profile', username=user_to_follow.username)
 
 @login_required
 def unfollow_user(request, user_id):
     user_to_unfollow = User.objects.get(id=user_id)
     Follow.objects.filter(follower=request.user, followed=user_to_unfollow).delete()
-    return redirect('profile', user_id=user_id)
+    return redirect('user_profile', username=user_to_unfollow.username)
 
 @login_required
 def like_tweet(request, tweet_id):
@@ -106,7 +109,7 @@ def like_tweet(request, tweet_id):
             sender_id=request.user.id,
             user=tweet.author,
             type="like",
-            link=f"/tweet/{tweet.id}/"  # Link to the tweet
+            tweet_id=tweet  # Link to the tweet
         )
 
     return JsonResponse({'liked': liked, 'like_count': tweet.like_count()})
@@ -126,10 +129,10 @@ def retweet_tweet(request, tweet_id):
             sender_id=request.user.id,
             user=tweet.author,
             type="retweet",
-            link=f"/tweet/{tweet.id}/"  # Link to the tweet
+            tweet_id=tweet  # Link to the tweet
         )
 
-    return JsonResponse({'retweet': retweet, 'retweet_count': tweet.retweet_count()})
+    return JsonResponse({'retweeted': retweet, 'retweet_count': tweet.retweet_count()})
 
 @login_required
 def delete_tweet(request, tweet_id):
@@ -181,12 +184,12 @@ def search(request):
     
     if query:
         users = User.objects.filter(username__icontains=query)
-        tweets = Tweet.objects.filter(content__icontains=query)
+        tweets = Tweet.objects.filter(text__icontains=query)
     else:
         users = User.objects.none()
         tweets = Tweet.objects.none()
     
-    return render(request, 'search_results.html', {
+    return render(request, 'core/search_results.html', {
         'users': users,
         'tweets': tweets,
         'query': query
