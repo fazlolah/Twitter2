@@ -5,7 +5,7 @@ from core.models import Tweet, Follow, Like, User, Retweet, Tag, Comment
 from core.forms import TweetForm, CommentForm
 from notification.models import Notification
 from django.http import JsonResponse
-from django.db.models import Count
+from django.db.models import Count, Q
 
 def home_feed(request):
     tweet_form = TweetForm(request.POST, request.FILES)
@@ -164,11 +164,13 @@ def search(request):
     
     if query:
         users = User.objects.filter(username__icontains=query)
+        # users = User.objects.filter(Q(username__icontains=query) | Q(get_full_name__icontains=query))
+
         tweets = Tweet.objects.filter(text__icontains=query)
     else:
         users = User.objects.none()
         tweets = Tweet.objects.none()
-    
+
     return render(request, 'core/search_results.html', {
         'users': users,
         'tweets': tweets,

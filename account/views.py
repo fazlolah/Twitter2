@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from account.forms import ForgotPasswordForm, LoginForm, SignUpForm, UserProfileForm
 from account.models import User
 from django.contrib import messages
-
+from core.models import Follow, Comment, Like, Tweet
 # Create your views here.
 
 def user_login(request):
@@ -80,9 +80,31 @@ def user_logout(request):
 
 def user_profile(request, username):
     username = username.lstrip('@')  # Remove '@' prefix if present
-    user = get_object_or_404(User, username=username)
-    context = {'user': user,
-               'user_tweets': user.tweet_set.all().order_by('-created_at')}
+    profile_user = get_object_or_404(User, username=username)
+    is_owner = (request.user == profile_user)  # Check if the logged-in user is the profile owner
+    is_following = False
+
+    # Fetch user's tweets, replies, likes, and media
+    user_tweets = profile_user.tweet_set.all().order_by('-created_at')
+    replies = Comment.objects.filter(author=profile_user).order_by('-created_at')
+    likes = Like.objects.filter(user=profile_user).select_related('tweet').order_by('-created_at')
+    media = Tweet.objects.filter(author=profile_user).exclude(image="").order_by('-created_at')
+
+    # Check if the logged-in user is following the profile user
+    if not is_owner and request.user.is_authenticated:
+        is_following = Follow.objects.filter(follower=request.user, followed=profile_user).exists()
+
+    # Prepare context for the template
+    context = {
+        'user_profile': profile_user,
+        'user_tweets': user_tweets,
+        'user_replies': replies,
+        'user_media': media,
+        'user_likes': likes,
+        'is_owner': is_owner,
+        'is_following': is_following,
+    }
+
     return render(request, 'account/profile.html', context)
 
 

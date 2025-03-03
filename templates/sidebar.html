@@ -10,28 +10,28 @@
         </div>
 
         <a href={% url "home" %} class="flex items-center space-x-4 text-xl hover:bg-gray-100 p-3 rounded-full"       >
-            <i data-feather="home" class="h-7 w-7"></i>
-            <span class="font-bold">Home</span>
+            <i data-feather="home" class="h-7 w-7 icon"></i>
+            <span class="sm:block">Home</span>
         </a>
 
         <a href={% url "explore" %} class="flex items-center space-x-4 text-xl hover:bg-gray-100 p-3 rounded-full">
-            <i data-feather="search" class="h-7 w-7"></i>
-            <span>Explore</span>
+            <i data-feather="search" class="h-7 w-7 icon"></i>
+            <span class="sm:block">Explore</span>
         </a>
 
         <a href={% url "notifications" %} class="flex items-center space-x-4 text-xl hover:bg-gray-100 p-3 rounded-full">
-            <i data-feather="bell" class="h-7 w-7"></i>
-            <span>Notifications</span>
+            <i data-feather="bell" class="h-7 w-7 icon"></i>
+            <span class="sm:block">Notifications</span>
         </a>
 
         <a href={% url "messages" %} class="flex items-center space-x-4 text-xl hover:bg-gray-100 p-3 rounded-full">
-            <i data-feather="mail" class="h-7 w-7"></i>
-            <span>Messages</span>
+            <i data-feather="mail" class="h-7 w-7 icon"></i>
+            <span class="sm:block">Messages</span>
         </a>
 
         <a href={% if user.is_authenticated %}{% url "user_profile" username=user.username %}{% else %}{% url "login" %}{% endif %} class="flex items-center space-x-4 text-xl hover:bg-gray-100 p-3 rounded-full">
-            <i data-feather="user" class="h-7 w-7"></i>
-            <span>Profile</span>
+            <i data-feather="user" class="h-7 w-7 icon"></i>
+            <span class="none sm:block">Profile</span>
         </a>
 
         {% comment %} <button class="bg-blue-500 hover:bg-blue-600 text-white rounded-full py-3 px-8 w-full text-lg font-bold">

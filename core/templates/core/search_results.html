@@ -13,25 +13,33 @@
         <button onclick="showPage('users', event)" class="flex-1 py-4 text-center hover:bg-gray-50">Users</button>
     </div>
 
-    {% if tweets %}
-        <div id="tweets" class="page">
+    <div id="tweets" class="page">
+        {% if tweets %}
             {% for tweet in tweets %}
                 {% include "components\tweet.html" with tweet=tweet%}
             {% endfor %}
-        </div>
-    {% elif users %}
-        <div id="users" class="page">
-            {% for tweet in tweets %}
-                {% include "components\tweet.html" with tweet=tweet%}
+        {% else %}
+            <div class="mt-10 flex flex-col items-center justify-center">
+                <h1 class="text-xl font-bold">
+                Nothing was found.
+                </h1>
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="users" class="page hidden">
+        {% if users %}
+            {% for user in users %}
+                {% include "account\components\profile_box.html" with user=user%}
             {% endfor %}
-        </div>
-    {% else %}
-        <div class="mt-10 flex flex-col items-center justify-center">
-            <h1 class="text-xl font-bold">
-            Nothing was found.
-            </h1>
-        </div>
-    {% endif %}
+        {% else %}
+            <div class="mt-10 flex flex-col items-center justify-center">
+                <h1 class="text-xl font-bold">
+                Nothing was found.
+                </h1>
+            </div>
+        {% endif %}
+    </div>
 
 </div>
 

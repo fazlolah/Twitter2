@@ -1,44 +1,76 @@
 $(document).ready(function() {
 
-    $(".tweet-text").each(function() {
-        var text = $(this);
-        const tag_re = /#(\w+)/g; // Regex to match hashtags
-        const mention_re = /@(\w+)/g; // Regex to match mentions
-
-        // Get the text content
-        var newText = text.text();
-
-        // Replace hashtags with <a> tags
-        newText = newText.replace(tag_re, '<a class="hashtags" href="/explore/$1">#$1</a>');
-
-        // Replace mentions with <a> tags
-        newText = newText.replace(mention_re, '<a class="mentions" href="/user/$1">@$1</a>');
-
-
-        // Update the element's HTML with the new content
-        text.html(newText);
-    });
-
-    $(".tweet-text").each(function() {
+    $(document).ready(function() {
+        // Replace hashtags and mentions
+        $(".tweet-text").each(function() {
+            var text = $(this);
+            const tag_re = /#(\w+)/g; // Regex to match hashtags
+            const mention_re = /@(\w+)/g; // Regex to match mentions
+    
+            var newText = text.text();
+    
+            // Replace hashtags with <a> tags
+            newText = newText.replace(tag_re, '<a class="hashtags" href="/explore/$1">#$1</a>');
+    
+            // Replace mentions with <a> tags
+            newText = newText.replace(mention_re, '<a class="mentions" href="/user/$1">@$1</a>');
+    
+            // Update the element's HTML with the new content
+            text.html(newText);
+        });
+    
+        // Highlight keyword from URL
         var queryParams = new URLSearchParams(window.location.search);
-
-        // Get a specific parameter
-        var keyword = queryParams.get('q');
-        
-        var text = $(this);
-
-        // Get the text content
-        var newText = text.text();
-
-        // Replace hashtags with <a> tags
-        newText = newText.replace(keyword, '<span class="highlight">' + keyword + '</span>');
-
-        // Update the element's HTML with the new content
-        text.html(newText);
+        var keyword = queryParams.get('q'); // Get the keyword from the URL
+    
+        if (keyword) {
+            // Escape special regex characters in the keyword
+            const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+            // Create a regex with the 'gi' flags (global and case-insensitive)
+            const keywordRegex = new RegExp(escapedKeyword, 'gi');
+    
+            $(".tweet-text").each(function() {
+                var text = $(this);
+                var newText = text.html(); // Use .html() to preserve existing links
+    
+                // Replace the keyword with a highlighted span
+                newText = newText.replace(keywordRegex, '<span class="highlight">$&</span>');
+    
+                // Update the element's HTML with the new content
+                text.html(newText);
+            });
+        }
     });
 
-    $(".tweet-image").click(function() {
-        console.log("image was clicked")
+    $(document).ready(function() {
+        // When a tweet image is clicked
+        $(".tweet-image").click(function() {
+            console.log("Image was clicked");
+    
+            // Get the source of the clicked image
+            var imageSrc = $(this).attr("src");
+    
+            // Set the source of the enlarged image
+            $("#enlarged-image").attr("src", imageSrc);
+    
+            // Show the overlay and image viewer
+            $("#image-viewer-overlay").fadeIn();
+        });
+    
+        // When the close button is clicked
+        $("#close-image-viewer").click(function() {
+            // Hide the overlay and image viewer
+            $("#image-viewer-overlay").fadeOut();
+        });
+    
+        // When the overlay is clicked (outside the image)
+        $("#image-viewer-overlay").click(function(event) {
+            if (event.target === this) {
+                // Hide the overlay and image viewer
+                $("#image-viewer-overlay").fadeOut();
+            }
+        });
     });
 
     $(".liked").each(function() {

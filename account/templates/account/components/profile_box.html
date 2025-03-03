@@ -12,7 +12,7 @@
             <div class="flex items-center space-x-2">
                 <p class="mt-2 mb-2 tweet-text">{{user.bio}}</p>
                 <span><i data-feather="map-pin" class="inline h-4 w-4"></i> {{user.location}}</span>
-                <span><i data-feather="calendar" class="inline h-4 w-4"></i> Joined {{user.created_at}}</span>
+                {% comment %} <span><i data-feather="calendar" class="inline h-4 w-4"></i> Joined {{user.created_at}}</span> {% endcomment %}
                 {% comment %} <span class="mt-2 mb-3 tweet-text">{{user.location}}</span> {% endcomment %}
             </div>
 
