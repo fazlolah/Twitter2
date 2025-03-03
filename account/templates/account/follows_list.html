@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Follows{% endblock title %}
+
+{% block content %}
+
+<!-- Edit Profile Page -->
+<div id="follows_list">
+    <!-- Header -->
+    <header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0">
+        <div class="relatisve">
+            <div class="flex border-b">
+                <button onclick="showPage('followers_list', event)" class="flex-1 py-4 text-center border-b-2 border-blue-500 text-blue-500">Followers</button>
+                <button onclick="showPage('followings_list', event)" class="flex-1 py-4 text-center hover:bg-gray-50">Followings</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="followers_list" class="page">
+        <!-- Header -->
+        {% for follower in followers %}
+            {% include "account/components/profile_box.html" with user=follower %}
+        {% endfor %}
+    
+    </div>
+
+    <div id="followings_list" class="page">
+        <!-- Header -->
+        {% for following in followings %}
+            {% include "account/components/profile_box.html" with user=following %}
+        {% endfor %}
+    
+    </div>
+
+
+</div>
+
+{% endblock content %}

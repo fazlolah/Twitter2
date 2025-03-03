@@ -159,26 +159,6 @@ def edit_tweet(request, tweet_id):
         form = TweetForm(instance=tweet)
     return render(request, 'edit_tweet.html', {'form': form})
 
-@login_required
-def followers_list(request, user_id):
-    user = User.objects.get(id=user_id)
-    followers = User.objects.filter(following__followed=user)
-    
-    return render(request, 'followers_list.html', {
-        'profile_user': user,
-        'followers': followers
-    })
-
-@login_required
-def following_list(request, user_id):
-    user = User.objects.get(id=user_id)
-    following = User.objects.filter(followers__follower=user)
-    
-    return render(request, 'following_list.html', {
-        'profile_user': user,
-        'following': following
-    })
-
 def search(request):
     query = request.GET.get('q')
     

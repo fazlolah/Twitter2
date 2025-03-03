@@ -66,7 +66,6 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError("An account with this email already exists.")
         return email
 
-
 class LoginForm(forms.Form):
     username_or_email = forms.CharField(
         label="Username or Email",
@@ -86,25 +85,26 @@ class LoginForm(forms.Form):
         widget=forms.CheckboxInput(attrs={"class": "h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"})
     )
 
-
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(
         label="Email",
         required=True,
         max_length=256,
-        widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter your email"})
+        widget=forms.EmailInput(attrs={"class": "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"})
     )
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'bio', 'profile_picture', 'location', 'date_of_birth', 'gender']
+        fields = ['first_name', 'last_name', 'bio', 'cover_picture', 'profile_picture', 'location', 'date_of_birth', 'gender', 'website']
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
-            'location': forms.TextInput(attrs={'class': 'form-control'}),
-            'date_of_birth': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'profile_picture' : forms.FileInput(attrs={'class': '', 'hidden':True}),
+            'cover_picture' : forms.FileInput(attrs={'class': '', 'hidden':True}),
+            'first_name': forms.TextInput(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'}),
+            'last_name': forms.TextInput(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'}),
+            'bio': forms.Textarea(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500', 'rows': 2}),
+            'location': forms.TextInput(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'}),
+            'website' : forms.URLInput(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'}),
+            'date_of_birth': forms.DateInput(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500', 'type': 'date'}),
+            'gender': forms.Select(attrs={'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500'}),
         }

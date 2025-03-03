@@ -13,6 +13,7 @@ class User(AbstractUser):
     is_phone_number_activated = models.BooleanField(default=False)
     date_of_birth = models.DateField(null=True, blank=True)    
     location = models.TextField(null=True, blank=True)
+    website = models.URLField(max_length=128, null=True, blank=True)
     
     # Gender field with corrected choices format
     GENDER_CHOICES = [

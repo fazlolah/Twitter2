@@ -5,62 +5,89 @@
 
 <!-- Edit Profile Page -->
 <div id="edit-profile" class="page min-h-screen">
-    <div class="max-w mx-auto bg-white border-x border-gray-200">
+    <div class=" mx-auto bg-white border border-gray-200 shadow-sm">
+        <!-- Header -->
         <header class="border-b border-gray-200 p-4">
-            <div class="flex justify-between items-center">
-                <h1 class="text-xl font-bold">Edit Profile</h1>
-                <button class="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800">Save</button>
-            </div>
+            <h1 class="text-xl font-bold">Edit Profile</h1>
         </header>
 
+        <!-- Form -->
         <div class="p-4 space-y-6">
-            <!-- Cover Photo -->
-            <div class="relative h-48 bg-gray-200 rounded-lg">
-                <button class="absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100">
-                    <i data-feather="camera" class="h-6 w-6 mr-2"></i>
-                    Update cover photo
-                </button>
-            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
-            <!-- Profile Photo -->
-            <div class="relative -mt-24 ml-4">
-                <img src="{{user.profile_picture.url}}" class="rounded-full h-32 w-32 border-4 border-white" alt="Profile">
-                <button class="absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white rounded-full opacity-0 hover:opacity-100">
-                    <i data-feather="camera" class="h-6 w-6"></i>
-                </button>
-            </div>
-
-            <!-- Form Fields -->
-            <div class="space-y-4 mt-8">
-                <div class="flex">
+                <!-- Cover Photo -->
+                <div class="relative h-48 bg-gray-200 rounded-lg overflow-hidden">
+                    {{ form.cover_picture }}
                     
-                    <label class="block text-sm font-medium text-gray-700">First Name</label>
-                    <input type="text" value="{{request.user.first_name}}" 
-                    class="mx-2 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <label type="button" for="id_cover_picture" class="cursor-pointer absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity">
+                        <i data-feather="camera" class="h-6 w-6 mr-2"></i>
+                        Update cover photo
+                    </label>
+                </div>
+
+                <!-- Profile Photo -->
+                <div class="relative -mt-24 ml-4 w-32 h-32">
+                    <img src="{{ user.profile_picture.url }}" class="rounded-full h-32 w-32 border-4 border-white" alt="Profile">
+                    {{ form.profile_picture }}
                     
-                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text" value="{{request.user.last_name}}" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <label type="button" for="id_profile_picture" class="cursor-pointer absolute inset-0 h-full flex items-center justify-center bg-black bg-opacity-50 text-white rounded-full opacity-0 hover:opacity-100 transition-opacity">
+                        <i data-feather="camera" class="h-6 w-6"></i>
+                    </label>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Bio</label>
-                    <textarea rows="3" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">{{user.bio}}</textarea>
+                <!-- Form Fields -->
+                <div class="space-y-4 mt-8">
+                    <!-- First Name and Last Name in one line -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            {{ form.date_of_birth }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            {{ form.gender }}
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                        {{ form.bio }}
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                        {{ form.location }}
+                    </div>
+
+                    <!-- Website -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Website</label>
+                        {{ form.website }}
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Location</label>
-                    <input type="text" value="{{user.location}}" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                <!-- Submit Button -->
+                <div class="mt-6 justify-content">
+                    <button type="submit" class="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors">
+                        Save Changes
+                    </button>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Website</label>
-                    <input type="url" placeholder="{{user.website}}" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

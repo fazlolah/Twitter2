@@ -25,11 +25,6 @@ urlpatterns = [
     path('user/<int:user_id>/follow/', views.follow_user, name='follow_user'),
     path('user/<int:user_id>/unfollow/', views.unfollow_user, name='unfollow_user'),
 
-    # User Profile URLs
-    # path('user/<int:user_id>/', views.user_profile, name='user_profile'),
-    path('user/<int:user_id>/followers/', views.followers_list, name='followers_list'),
-    path('user/<int:user_id>/following/', views.following_list, name='following_list'),
-
     # Search URL
     path('explore/', views.explore_feed, name='explore'),
     path('explore/<slug:tag>', views.explore_tag, name='explore_tag'),

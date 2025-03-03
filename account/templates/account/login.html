@@ -40,7 +40,7 @@
                         class="h-4 w-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500"> {% endcomment %}
                     <label for="remember-me" class="ml-2 block text-sm text-gray-900">Remember me</label>
                 </div>
-                <a href="#" class="text-sm text-blue-500 hover:text-blue-600">Forgot password?</a>
+                <a href="{% url "forgot-password" %}" class="text-sm text-blue-500 hover:text-blue-600">Forgot password?</a>
             </div>
 
             <button type="submit"
@@ -63,9 +63,15 @@
                         class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span>Google</span>
                     </button>
+
                     <button type="button"
                         class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span>Apple</span>
+                    </button>
+
+                    <button type="button"
+                    class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span>Email</span>
                     </button>
                 </div>
             </div>

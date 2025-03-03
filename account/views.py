@@ -78,12 +78,6 @@ def user_logout(request):
     return redirect('login')
 
 
-def all_users(request):
-    users = User.objects.all()
-    context = {'users':users}
-    return render(request=request, template_name='account/index.html', context=context)
-
-
 def user_profile(request, username):
     username = username.lstrip('@')  # Remove '@' prefix if present
     user = get_object_or_404(User, username=username)
@@ -98,7 +92,23 @@ def edit_profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('user_profile', user_id=request.user.id)
+            return redirect('user_profile', username=request.user.username)
+        else:
+            messages.error(request, "something went wrong")
     else:
         form = UserProfileForm(instance=request.user)
     return render(request, 'account/edit_profile.html', {'form': form})
+
+@login_required
+def follows_list_view(request, username):
+    user = User.objects.get(username=username)
+    followers = User.objects.filter(following__followed=user)
+    following = User.objects.filter(followers__follower=user)
+
+    
+    return render(request, 'account/follows_list.html', {
+        'profile_user': user,
+        'followers': followers,
+        'followings': following,
+
+    })
