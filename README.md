@@ -27,12 +27,12 @@ A Twitter-like social media platform built with Django. This project implements 
 
 ## Technology Stack
 
-- Python 3.x
-- Django 5.1
-- SQLite3 (Database)
+- Python 3
+- Django
+- SQLite3
 - HTML/CSS
 - JavaScript
-- Tailwind CSS (based on class names seen in code)
+- Tailwind CSS
 
 ## Installation
 
