@@ -65,8 +65,8 @@ python run_server.py
 - Direct Messages: `/messages/`
 
 ## TODO
-retweets
-editing and removing tweets
-better front-end
-block and report functionality
-keyword and sentiment extracion
+ - retweets
+ - editing and removing tweets
+ - better front-end
+ - block and report functionality
+ - keyword and sentiment extracion
