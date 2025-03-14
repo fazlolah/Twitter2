@@ -25,7 +25,7 @@ A Twitter-like social media platform built with Django. This project implements 
   - Media File Support
   - Tag System
 
-## Technology Stack
+## Stack
 
 - Python 3
 - Django
@@ -34,7 +34,7 @@ A Twitter-like social media platform built with Django. This project implements 
 - JavaScript
 - Tailwind CSS
 
-## Installation
+## Usage
 
 Run the development server
 ```bash
@@ -46,7 +46,7 @@ Or use the `run_server.py` script which will automatically open the website in y
 python run_server.py
 ```
 
-## Project Structure
+## Apps
 
 - `account/` - User authentication and profile management
 - `core/` - Main application features (tweets, follows, etc.)
