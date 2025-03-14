@@ -48,8 +48,8 @@
                 <div class="text-gray-500">@{{user_profile.username}}</div>
                 <p class="mt-4">{{user_profile.bio}}</p>
                 <div class="flex space-x-4 mt-4 text-gray-500">
-                    <span><i data-feather="map-pin" class="inline h-4 w-4"></i> {{user_profile.location}}</span>
-                    <span><i data-feather="calendar" class="inline h-4 w-4"></i> Joined {{user_profile.created_at}}</span>
+                    <span><a href="https://www.google.com/maps/search/?api=1&query={{user_profile.location}}"><i data-feather="map-pin" class="inline h-4 w-4"></i> {{user_profile.location}}</a></span>
+                    <span><i data-feather="calendar" class="inline h-4 w-4"></i> Joined {{user_profile.get_joined_date}}</span>
 
                 </div>
                 {% if user_profile.website %}

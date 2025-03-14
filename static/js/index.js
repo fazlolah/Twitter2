@@ -97,7 +97,8 @@ $(document).ready(function() {
             url: "/tweet/" + postId + "/like/",
             type: "POST",
             headers: { "X-CSRFToken": csrf_token },
-            success: function(response) {
+            success: function(response, status) {
+                console.log(status);
                 if (response.liked) {
                     count.text(Number(count.text()) + 1);
                     // svgIcon.attr('stroke', 'none');
@@ -115,6 +116,17 @@ $(document).ready(function() {
                     button.removeClass('liked');
 
 
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle any errors here, including redirects on error
+                if (xhr.status == 302) {
+                    // If the server responds with a redirect status code
+                    var redirectUrl = xhr.getResponseHeader('Location');
+                    window.location.href = redirectUrl;
+                } else {
+                    // Handle other errors
+                    console.error("Error:", error);
                 }
             }
         });

@@ -1,5 +1,2 @@
 # buttons
-# follow
-# edit profile
-# blocking/unfollow/
-# media
+# blocking/

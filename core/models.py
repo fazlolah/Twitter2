@@ -113,6 +113,7 @@ class Like(models.Model):
 
 class Retweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length=450, null=True)
     tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE, related_name='retweets')
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
